@@ -73,3 +73,27 @@ This may be brute forced without impunity, so let's implement the BruteForceDete
           return 'SUCCESS';
       }
   }
+
+The library itself does not automatically expire failure logs or unblock. So
+you probably need to implement this yourself. The library does provide two
+methods to assist with this:
+
+``expireLowFailures($maxAge = 86400, $maxFailPercentage = 2.5)``
+
+This method will check all logs updated within the timespan given in
+``$maxAge`` and delete them if their number of failures is below the given
+``$maxFailPercentage`` of the number of failures that will cause the value to
+be blocked. The defaults are to check for updates within the last day (86400
+seconds) and with failure rate of 25 or lower (2.5% of 1000).
+
+It is recommended to put this in a CRON-job to run daily.
+
+``unBlock($type, $value)``
+
+Once a value is blocked it will not unblock automatically. You can use this
+method to unblock a given value and type by removing their log.
+
+``getBlockedValues($maxAge = 2419200)``
+
+Will return a list of all type/value combinations blocked within the given
+period. This defaults to the last 4 weeks.
