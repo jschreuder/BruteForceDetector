@@ -53,6 +53,14 @@ class BruteForceDetector
         $this->tableName = $tableName;
     }
 
+    private function toDbValue($type, $value)
+    {
+        if (strpos($type, ':') !== false) {
+            throw new \InvalidArgumentException('Value type must not contain a colon.');
+        }
+        return $type . ':' . $value;
+    }
+
     /**
      * An array of checks to perform, for example:
      *
@@ -89,7 +97,7 @@ class BruteForceDetector
         $conditions = [];
         foreach ($checks as $type => $value) {
             $valueKey = 'val_' . uniqid();
-            $values[$valueKey] = $value;
+            $values[$valueKey] = $this->toDbValue($type, $value);
             $conditions[] = '(value = :' . $valueKey . ' AND fail_count > ' . strval($this->maxFailures) . ')';
         }
         return implode(' OR ', $conditions);
@@ -114,7 +122,7 @@ class BruteForceDetector
                 ON DUPLICATE KEY UPDATE fail_count = fail_count + 1
             ');
             $query->execute([
-                'value' => $type . ':' . $value,
+                'value' => $this->toDbValue($type, $value),
             ]);
         }
     }
@@ -159,7 +167,7 @@ class BruteForceDetector
             DELETE FROM `' . $this->tableName . '`
                   WHERE value = :value
         ');
-        $query->execute(['value' => $type . ':' . $value]);
+        $query->execute(['value' => $this->toDbValue($type, $value)]);
     }
 
     /**
