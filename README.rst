@@ -1,6 +1,9 @@
 BruteForceDetector
 ==================
 
+.. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/build.png?b=master
+   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+   :alt: Build status
 .. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/quality-score.png?b=master
    :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
    :alt: Scrutinizer Code Quality
