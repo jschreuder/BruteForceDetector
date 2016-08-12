@@ -37,7 +37,7 @@ class BruteForceDetector
      *
      * @var  int
      */
-    private $maxFailures = 1000;
+    private $maxFailures;
 
     /**
      * Name of the SQL table holding the fail logs
@@ -46,7 +46,7 @@ class BruteForceDetector
      */
     private $tableName;
 
-    public function __construct(\PDO $pdo, $maxFailures = 1000, $tableName = 'brute_force_log')
+    public function __construct(\PDO $pdo, $maxFailures = 10000, $tableName = 'brute_force_log')
     {
         $this->pdo = $pdo;
         $this->maxFailures = intval($maxFailures);
@@ -128,16 +128,16 @@ class BruteForceDetector
     }
 
     /**
-     * Should be run periodically to get rid of low number failures in the DB over a recent period
+     * Should be run periodically to get rid of logs with low number failures
      *
-     * @param   int $maxAge in seconds, defaults to 1 day)
-     * @param   float $maxFailPercentage defaults to 2.5%
+     * @param   int $minAge minimum age in seconds before it may be expired, defaults to 1 hour
+     * @param   float $maxFailPercentage defaults to 0.5%
      * @return  void
      */
-    public function expireLowFailures($maxAge = 86400, $maxFailPercentage = 2.5)
+    public function expireLowFailures($minAge = 3600, $maxFailPercentage = 0.5)
     {
-        if (!is_int($maxAge) || $maxAge < 0) {
-            throw new \InvalidArgumentException('$maxAge must be an integer and greater than zero.');
+        if (!is_int($minAge) || $minAge < 0) {
+            throw new \InvalidArgumentException('$minAge must be an integer and greater than zero.');
         }
         if (!is_int($maxFailPercentage) || $maxFailPercentage < 0 || $maxFailPercentage > 100) {
             throw new \InvalidArgumentException('$maxFailPercentage must be an integer and between 0 and 100.');
@@ -145,11 +145,11 @@ class BruteForceDetector
 
         $query = $this->pdo->prepare('
             DELETE FROM `' . $this->tableName . '`
-                  WHERE last_update > :max_age
+                  WHERE last_update < :min_age
                     AND fail_count < :max_fails
         ');
         $query->execute([
-            'max_age' => (new \DateTimeImmutable('-' . $maxAge . ' seconds'))->format('Y-m-d H:i:s'),
+            'min_age' => (new \DateTimeImmutable('-' . $minAge . ' seconds'))->format('Y-m-d H:i:s'),
             'max_fails' => ceil($this->maxFailures * ($maxFailPercentage / 100)),
         ]);
     }

@@ -80,15 +80,15 @@ The library itself does not automatically expire failure logs or unblock. So
 you probably need to implement this yourself. The library does provide two
 methods to assist with this:
 
-``expireLowFailures($maxAge = 86400, $maxFailPercentage = 2.5)``
+``expireLowFailures($maxAge = 3600, $maxFailPercentage = 0.5)``
 
-This method will check all logs updated within the timespan given in
+This method will check all logs updated before the timespan given in
 ``$maxAge`` and delete them if their number of failures is below the given
 ``$maxFailPercentage`` of the number of failures that will cause the value to
-be blocked. The defaults are to check for updates within the last day (86400
-seconds) and with failure rate of 25 or lower (2.5% of 1000).
+be blocked. The defaults are to check for updates within the last hour (3600
+seconds) and with failure rate of 50 or lower (0.5% of 10000).
 
-It is recommended to put this in a CRON-job to run daily.
+It is recommended to put this in a CRON-job to run hourly.
 
 ``unBlock($type, $value)``
 
