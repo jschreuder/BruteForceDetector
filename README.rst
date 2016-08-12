@@ -57,20 +57,18 @@ This may be brute forced without impunity, so let's implement the BruteForceDete
       function login(ServerRequestInterface $request)
       {
           $requestParams = $request->getParsedBody();
-          $requestIp = $request->getClientIp();
-
-          // Block if already too many tries for either the given user or from current IP
           $checks = [
-              BruteForceDetector::TYPE_IP => $requestIp,
+              BruteForceDetector::TYPE_IP => $request->getClientIp(),
               BruteForceDetector::TYPE_USER => $requestParams['user'],
           ];
+
+          // Block if already too many tries for either the given user or from current IP
           if ($this->bruteForceDetector->isBlocked($checks)) {
               return 'BLOCKED';
           }
 
           if (!$this->authService->login($requestParams['user'], $requestParams['pass'])) {
-              $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_IP, $requestIp);
-              $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_USER, $requestParams['user']);
+              $this->bruteForceDetector->updateFails($checks);
               return 'FAIL';
           }
 

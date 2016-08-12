@@ -96,21 +96,27 @@ class BruteForceDetector
     }
 
     /**
-     * Log failure for a type of value
+     * An array to log of types & values that failed
      *
-     * @param   string $type
-     * @param   string $value
+     *     [
+     *         BruteForceDetector::TYPE_IP => '127.0.0.1',
+     *         BruteForceDetector::TYPE_USER => 'me@localhost',
+     *     ]
+     *
+     * @param   array $checks
      * @return  void
      */
-    public function updateFail($type, $value)
+    public function updateFails(array $checks)
     {
-        $query = $this->pdo->prepare('
-            INSERT INTO `' . $this->tableName . '` (value, fail_count) VALUES (:value, 1)
-            ON DUPLICATE KEY UPDATE fail_count = fail_count + 1
-        ');
-        $query->execute([
-            'value' => $type . ':' . $value,
-        ]);
+        foreach ($checks as $type => $value) {
+            $query = $this->pdo->prepare('
+                INSERT INTO `' . $this->tableName . '` (value, fail_count) VALUES (:value, 1)
+                ON DUPLICATE KEY UPDATE fail_count = fail_count + 1
+            ');
+            $query->execute([
+                'value' => $type . ':' . $value,
+            ]);
+        }
     }
 
     /**
