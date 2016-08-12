@@ -1,5 +1,5 @@
-SpotApi
-=======
+BruteForceDetector
+==================
 
 .. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/quality-score.png?b=master
    :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
