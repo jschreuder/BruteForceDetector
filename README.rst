@@ -2,10 +2,10 @@ SpotApi
 =======
 
 .. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/quality-score.png?b=master
-:target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
    :alt: Scrutinizer Code Quality
 .. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/coverage.png?b=master
-:target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
    :alt: Code Coverage
 
 This library keeps a log in your database that keeps track of login failures
