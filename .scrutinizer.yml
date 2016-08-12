@@ -1,0 +1,11 @@
+build:
+    environment:
+        php:
+            version: 5.5
+    tests:
+        override:
+            -
+                command: 'bin/phpspec run'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'php-clover'

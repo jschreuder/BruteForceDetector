@@ -1,0 +1,13 @@
+suites:
+    acme_suite:
+        namespace: Spot\BruteForceDetector
+        psr4_prefix: Spot\BruteForceDetector
+
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
+
+code_coverage:
+    format:
+        - clover
+    output:
+        clover: coverage.xml

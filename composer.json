@@ -1,0 +1,26 @@
+{
+    "name": "spot/brute-force-detector",
+    "description": "Simple brute force detection, to be used before login/session-token is checked.",
+    "type": "Library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jelmer Schreuder",
+            "email": "j.schreuder@mijnpraktijk.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.5",
+        "phpspec/prophecy": "^1.6",
+        "henrikbjorn/phpspec-code-coverage": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spot\\BruteForceDetector\\": "src"
+        }
+    }
+}

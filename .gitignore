@@ -1,0 +1,6 @@
+/.idea/
+/bin/
+/vendor/
+composer.phar
+composer.lock
+coverage.xml
