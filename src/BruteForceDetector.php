@@ -71,7 +71,7 @@ class BruteForceDetector
      * @param   array $checks
      * @return  bool
      */
-    public function isBanned(array $checks)
+    public function isBlocked(array $checks)
     {
         $values = [];
         $query = $this->pdo->prepare('
@@ -85,7 +85,7 @@ class BruteForceDetector
     }
 
     /**
-     * Builds the WHERE conditions for the isBanned() method
+     * Builds the WHERE conditions for the isBlocked() method
      *
      * @param   array $checks
      * @param   array $values
