@@ -16,55 +16,57 @@ timing attacks.
 Let's say for example you have the following code:
 
 .. code:: php
-    use Psr\Http\Message\ServerRequestInterface;
-    class LoginController {
-        private $authService;
 
-        public function __construct(AuthService $authService)
-        {
-            $this->authService = $authService;
-        }
+  use Psr\Http\Message\ServerRequestInterface;
+  class LoginController {
+      private $authService;
 
-        function login(ServerRequestInterface $request)
-        {
-            $requestParams = $request->getParsedBody();
-            if (!$this->authService->login($requestParams['user'], $requestParams['pass'])) {
-                return 'FAIL';
-            }
-            return 'SUCCESS';
-        }
-    }
+      public function __construct(AuthService $authService)
+      {
+          $this->authService = $authService;
+      }
+
+      function login(ServerRequestInterface $request)
+      {
+          $requestParams = $request->getParsedBody();
+          if (!$this->authService->login($requestParams['user'], $requestParams['pass'])) {
+              return 'FAIL';
+          }
+          return 'SUCCESS';
+      }
+  }
 
 This may be brute forced without impunity, so let's implement the BruteForceDetector:
 
 .. code:: php
-    use Psr\Http\Message\ServerRequestInterface;
-    class LoginController {
-        private $authService;
-        private $bruteForceDetector;
 
-        public function __construct(AuthService $authService, BruteForceDetector $bruteForceDetector)
-        {
-            $this->authService = $authService;
-            $this->bruteForceDetector = $bruteForceDetector;
-        }
+  use Psr\Http\Message\ServerRequestInterface;
+  class LoginController {
+      private $authService;
+      private $bruteForceDetector;
 
-        function login(ServerRequestInterface $request)
-        {
-            $requestParams = $request->getParsedBody();
-            $requestIp = $request->getClientIp();
+      public function __construct(AuthService $authService, BruteForceDetector $bruteForceDetector)
+      {
+          $this->authService = $authService;
+          $this->bruteForceDetector = $bruteForceDetector;
+      }
 
-            // Block if already too many tries for either the given user or from current IP
-            if ($this->bruteForceDetector->isBlocked($requestIp, $requestParams['user'])) {
-                return 'BLOCKED';
-            }
+      function login(ServerRequestInterface $request)
+      {
+          $requestParams = $request->getParsedBody();
+          $requestIp = $request->getClientIp();
 
-            if (!$this->authService->login($requestParams['user'], $requestParams['pass'])) {
-                $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_IP, $requestIp);
-                $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_USER, $requestParams['user']);
-                return 'FAIL';
-            }
+          // Block if already too many tries for either the given user or from current IP
+          if ($this->bruteForceDetector->isBlocked($requestIp, $requestParams['user'])) {
+              return 'BLOCKED';
+          }
 
-            return 'SUCCESS';
-        }
-    }
+          if (!$this->authService->login($requestParams['user'], $requestParams['pass'])) {
+              $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_IP, $requestIp);
+              $this->bruteForceDetector->updateFail(BruteForceDetector::TYPE_USER, $requestParams['user']);
+              return 'FAIL';
+          }
+
+          return 'SUCCESS';
+      }
+  }
