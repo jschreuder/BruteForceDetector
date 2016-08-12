@@ -60,7 +60,11 @@ This may be brute forced without impunity, so let's implement the BruteForceDete
           $requestIp = $request->getClientIp();
 
           // Block if already too many tries for either the given user or from current IP
-          if ($this->bruteForceDetector->isBlocked($requestIp, $requestParams['user'])) {
+          $checks = [
+              BruteForceDetector::TYPE_IP => $requestIp,
+              BruteForceDetector::TYPE_USER => $requestParams['user'],
+          ];
+          if ($this->bruteForceDetector->isBlocked($checks)) {
               return 'BLOCKED';
           }
 
