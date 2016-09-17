@@ -5,21 +5,22 @@ namespace Spot\BruteForceDetector;
 class BruteForceDetector
 {
     /**
-     * Creating the SQL table, this can be used in a migration for example
+     * Creating the MySQL table, this can be used in a migration for example
      *
+     * @param   \PDO $pdo
      * @param   string $tableName
-     * @return  string
+     * @return  void
      */
-    public static function getCreateTableSQL($tableName = 'brute_force_log')
+    public static function createMySQLTable(\PDO $pdo, $tableName = 'brute_force_log')
     {
-        return '
+        $pdo->query('
             CREATE TABLE `' . $tableName . '` (
                 value VARCHAR(160) NOT NULL,
                 fail_count INT(11) NOT NULL,
                 last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (value)
             ) ENGINE = InnoDB
-        ';
+        ');
     }
 
     /**
