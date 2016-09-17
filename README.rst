@@ -1,14 +1,14 @@
 BruteForceDetector
 ==================
 
-.. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/build.png?b=master
-   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+.. image:: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/badges/build.png?b=master
+   :target: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/?branch=master
    :alt: Build status
-.. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/quality-score.png?b=master
-   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+.. image:: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/badges/quality-score.png?b=master
+   :target: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/?branch=master
    :alt: Scrutinizer Code Quality
-.. image:: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/badges/coverage.png?b=master
-   :target: https://scrutinizer-ci.com/g/WebspotCode/BruteForceDetector/?branch=master
+.. image:: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/badges/coverage.png?b=master
+   :target: https://scrutinizer-ci.com/g/jschreuder/BruteForceDetector/?branch=master
    :alt: Code Coverage
 
 This library keeps a log in your database that keeps track of login failures
